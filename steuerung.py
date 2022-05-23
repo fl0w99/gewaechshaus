@@ -132,7 +132,7 @@ def messung():
                     font_writer.printstring("Manuell")
                     oled.show()
 
-                if schalter_unten == 1:
+                elif schalter_unten == 1:
                     relay.value(0)
                     
                     wait()
@@ -145,8 +145,8 @@ def messung():
                     font_writer.printstring("Manuell")
                     oled.show(
 
-        
-			    elif mode_autom == 1:
+      
+	elif mode_autom == 1:
             schleife = 0
             oled.fill(0)
             oled.show()
