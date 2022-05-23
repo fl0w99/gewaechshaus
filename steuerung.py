@@ -6,29 +6,39 @@ import freesans20
 import writer
 
 
-#OLED Interface
-i2c = SoftI2C(scl=Pin(22), sda=Pin(21))
+# Manuelle Definitionen
+ds_pin 		= Pin(19)
+relay_pin 	= 21
+oben_pin 	= 21
+unten_pin 	= 21
+autom_pin 	= 21
+manuell_pin 	= 21
+i2c_pin		= Pin(21)
+
+temperatur	= 10
+
+
+
+# OLED Interface
+i2c = SoftI2C(scl = i2c_pin, sda=Pin(21))
 oled = ssd1306.SSD1306_I2C(128, 64, i2c, 0x3c)
 
 
-#Sensor Interface
-
-ds_pin = Pin(19)
+# Temperatur Sensor Interface
 ds_sensor = ds18x20.DS18X20(onewire.OneWire(ds_pin))
-
 roms = ds_sensor.scan()
 
-#Relais
-relay = Pin(32, Pin.OUT)
+
+# Definition Relais
+relay = Pin(relay_pin, Pin.OUT)
 
 
 # Definition der Schalter
-schalter=oben = Pin(32, Pin.IN)
-schalter_unten = Pin(33, Pin.IN)
-mode_autom = Pin(33, Pin.IN)
-mode_manuell = Pin(34, Pin.IN)
+schalter_oben 	= Pin(oben_pin, Pin.IN)
+schalter_unten 	= Pin(unten_pin, Pin.IN)
+mode_autom 	= Pin(autom_pin, Pin.IN)
+mode_manuell 	= Pin(manuell_pin, Pin.IN)
 
-        
         
         
 
@@ -65,6 +75,14 @@ def wait():
     font_writer.printstring("Bitte Warten!")
     oled.show()
 
+    sleep(10)
+
+    oled.fill(0)    
+    font_writer = writer.Writer(oled, freesans20)
+    font_writer.set_textpos(oled, 25, 35)
+    font_writer.printstring("Manuell")
+    oled.show()
+
 
 
 def fehler():
@@ -89,7 +107,7 @@ def messung():
     while x:                                                # Vorher stand hier while true:
         
         
-        # if mode_autom == 1 
+        if mode_autom == 1 
             ds_sensor.convert_temp()
             sleep_ms(750)
             for rom in roms:
@@ -102,13 +120,14 @@ def messung():
                 font_writer.printstring(temp + " C")
                 print(ds_sensor.read_temp(rom))
                 oled.show()
-                if round(ds_sensor.read_temp(rom), 2) >= 30:
-                    relay.value(1)
+		
+                if round(ds_sensor.read_temp(rom), 2) >= temperatur:	# Hier wird die Temperatur überprütf
+                    relay.value(1)					# Fenster Öffnen
                 else:
-                    relay.value(0)
+                    relay.value(0)					# Fenster schließen
 
         # if Abfrage für Manuell oder Automatik            
-        if mode_manuell == 1:                                           # -- Modus Wahlschalter
+        elif mode_manuell == 1:                                         # -- Modus Wahlschalter
             schleife = 1    
                                    
                 oled.fill(0)    
@@ -117,40 +136,26 @@ def messung():
                 font_writer.printstring("Manuell")
                 oled.show()
 
+		
             while schleife == 1:                                 #-- muss auch beendet werden, wenn Mode geändert wird
                 
                 if schalter_oben == 1:
-                    relay.value(1)
+                    relay.value(1)				# Überprüfen, dass Relais bei NO. Fenster schließt. Hier sollte es öffnen
                     
                     wait()
                 
-                    sleep(10)
-                    
-                    oled.fill(0)    
-                    font_writer = writer.Writer(oled, freesans20)
-                    font_writer.set_textpos(oled, 25, 35)
-                    font_writer.printstring("Manuell")
-                    oled.show()
 
                 elif schalter_unten == 1:
-                    relay.value(0)
+                    relay.value(0)				# Fenster sollte schließen
                     
                     wait()
-
-                    sleep(10)
-                    
-                    oled.fill(0)    
-                    font_writer = writer.Writer(oled, freesans20)
-                    font_writer.set_textpos(oled, 25, 35)
-                    font_writer.printstring("Manuell")
-                    oled.show()
-
+		
       
 	
-	elif mode_autom == 1:
-            schleife = 0
-            oled.fill(0)
-            oled.show()
+		elif mode_autom == 1:
+		    schleife = 0
+		    oled.fill(0)
+		    oled.show()
 
         
         else:
