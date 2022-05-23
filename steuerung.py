@@ -56,6 +56,25 @@ def pre():
 
     sleep(1)
 
+
+def wait():
+
+    oled.fill(0)    
+    font_writer = writer.Writer(oled, freesans20)
+    font_writer.set_textpos(oled, 25, 35)
+    font_writer.printstring("Bitte Warten!")
+    oled.show()
+
+
+
+def fehler():
+
+    oled.fill(0)    
+    font_writer = writer.Writer(oled, freesans20)
+    font_writer.set_textpos(oled, 25, 35)
+    font_writer.printstring("Fehler")
+    oled.show()
+   
     
     
 
@@ -102,13 +121,9 @@ def messung():
                 
                 if schalter_oben == 1:
                     relay.value(1)
-
-                    oled.fill(0)    
-                    font_writer = writer.Writer(oled, freesans20)
-                    font_writer.set_textpos(oled, 25, 35)
-                    font_writer.printstring("Bitte Warten!")
-                    oled.show()
-
+                    
+                    wait()
+                
                     sleep(10)
                     
                     oled.fill(0)    
@@ -119,12 +134,8 @@ def messung():
 
                 if schalter_unten == 1:
                     relay.value(0)
-
-                    oled.fill(0)    
-                    font_writer = writer.Writer(oled, freesans20)
-                    font_writer.set_textpos(oled, 25, 35)
-                    font_writer.printstring("Bitte Warten!")
-                    oled.show()
+                    
+                    wait()
 
                     sleep(10)
                     
@@ -134,10 +145,16 @@ def messung():
                     font_writer.printstring("Manuell")
                     oled.show(
 
-                if mode_autom == 1:
-                    schleife = 0
-                    oled.fill(0)
-                    oled.show()
+        
+			    elif mode_autom == 1:
+            schleife = 0
+            oled.fill(0)
+            oled.show()
+
+        
+        else:
+            fehler()
+            sleep(5)
 
 
     sleep(4)
