@@ -143,11 +143,11 @@ def messung():
                     font_writer = writer.Writer(oled, freesans20)
                     font_writer.set_textpos(oled, 25, 35)
                     font_writer.printstring("Manuell")
-                    oled.show(
+                    oled.show()
 
       
 	
-	if mode_autom == 1:
+	elif mode_autom == 1:
             schleife = 0
             oled.fill(0)
             oled.show()
