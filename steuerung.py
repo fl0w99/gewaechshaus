@@ -147,7 +147,7 @@ def messung():
 
       
 	
-	elif mode_autom == 1:
+	if mode_autom == 1:
             schleife = 0
             oled.fill(0)
             oled.show()
