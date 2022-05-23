@@ -107,7 +107,7 @@ def messung():
     while x:                                                # Vorher stand hier while true:
         
         
-        if mode_autom == 1 
+        if mode_autom == 1: 
             ds_sensor.convert_temp()
             sleep_ms(750)
             for rom in roms:
