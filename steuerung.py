@@ -106,7 +106,8 @@ def messung():
 
     while x:                                                # Vorher stand hier while true:
         
-        
+        print('Automatik aktiv')
+	
         if mode_autom == 1: 
             ds_sensor.convert_temp()
             sleep_ms(750)
@@ -128,6 +129,7 @@ def messung():
 
         # if Abfrage für Manuell oder Automatik            
         elif mode_manuell == 1:                                         # -- Modus Wahlschalter
+	    print('Manuelle aktiv')		
             schleife = 1    
                                    
                 oled.fill(0)    
@@ -141,13 +143,13 @@ def messung():
                 
                 if schalter_oben == 1:
                     relay.value(1)				# Überprüfen, dass Relais bei NO. Fenster schließt. Hier sollte es öffnen
-                    
+                    print('Fenster öffnen')
                     wait()
                 
 
                 elif schalter_unten == 1:
                     relay.value(0)				# Fenster sollte schließen
-                    
+                    print('Fenster schließen')
                     wait()
 		
       
