@@ -21,6 +21,17 @@ roms = ds_sensor.scan()
 #Relais
 relay = Pin(32, Pin.OUT)
 
+
+# Definition der Schalter
+schalter=oben = Pin(32, Pin.IN)
+schalter_unten = Pin(33, Pin.IN)
+mode_autom = Pin(33, Pin.IN)
+mode_manuell = Pin(34, Pin.IN)
+
+        
+        
+        
+
 def pre():
     #OLED Anzeige
     oled.fill(0)
@@ -45,6 +56,8 @@ def pre():
 
     sleep(1)
 
+    
+    
 
 def messung():
     oled.fill(0)
@@ -56,10 +69,6 @@ def messung():
 
     while x:                                                # Vorher stand hier while true:
         
-        # schalter=oben = Pin(32, Pin.IN)
-        # schalter_unten = Pin(33, Pin.IN)
-        # mode_autom = Pin(33, Pin.IN)
-        # mode_manuell = Pin(34, Pin.IN)
         
         # if mode_autom == 1 
             ds_sensor.convert_temp()
@@ -79,55 +88,56 @@ def messung():
                 else:
                     relay.value(0)
 
-        # if mode_manuell == 1:                                           -- Modus Wahlschalter
-            # schleife = 1    
+        # if Abfrage für Manuell oder Automatik            
+        if mode_manuell == 1:                                           # -- Modus Wahlschalter
+            schleife = 1    
                                    
-                # oled.fill(0)    
-                # font_writer = writer.Writer(oled, freesans20)
-                # font_writer.set_textpos(oled, 25, 35)
-                # font_writer.printstring("Manuell")
-                # oled.show()
+                oled.fill(0)    
+                font_writer = writer.Writer(oled, freesans20)
+                font_writer.set_textpos(oled, 25, 35)
+                font_writer.printstring("Manuell")
+                oled.show()
 
-            # while schleife == 1:                                 -- muss auch beendet werden, wenn Mode geändert wird
+            while schleife == 1:                                 #-- muss auch beendet werden, wenn Mode geändert wird
                 
-                # if schalter_oben == 1:
-                    # relay.value(1)
+                if schalter_oben == 1:
+                    relay.value(1)
 
-                    # oled.fill(0)    
-                    # font_writer = writer.Writer(oled, freesans20)
-                    # font_writer.set_textpos(oled, 25, 35)
-                    # font_writer.printstring("Bitte Warten!")
-                    # oled.show()
+                    oled.fill(0)    
+                    font_writer = writer.Writer(oled, freesans20)
+                    font_writer.set_textpos(oled, 25, 35)
+                    font_writer.printstring("Bitte Warten!")
+                    oled.show()
 
-                    # sleep(10)
+                    sleep(10)
                     
-                    # oled.fill(0)    
-                    # font_writer = writer.Writer(oled, freesans20)
-                    # font_writer.set_textpos(oled, 25, 35)
-                    # font_writer.printstring("Manuell")
-                    # oled.show()
+                    oled.fill(0)    
+                    font_writer = writer.Writer(oled, freesans20)
+                    font_writer.set_textpos(oled, 25, 35)
+                    font_writer.printstring("Manuell")
+                    oled.show()
 
-                # if schalter_unten == 1:
-                    # relay.value(0)
+                if schalter_unten == 1:
+                    relay.value(0)
 
-                    # oled.fill(0)    
-                    # font_writer = writer.Writer(oled, freesans20)
-                    # font_writer.set_textpos(oled, 25, 35)
-                    # font_writer.printstring("Bitte Warten!")
-                    # oled.show()
+                    oled.fill(0)    
+                    font_writer = writer.Writer(oled, freesans20)
+                    font_writer.set_textpos(oled, 25, 35)
+                    font_writer.printstring("Bitte Warten!")
+                    oled.show()
 
-                    # sleep(10)
+                    sleep(10)
                     
-                    # oled.fill(0)    
-                    # font_writer = writer.Writer(oled, freesans20)
-                    # font_writer.set_textpos(oled, 25, 35)
-                    # font_writer.printstring("Manuell")
-                    # oled.show(
+                    oled.fill(0)    
+                    font_writer = writer.Writer(oled, freesans20)
+                    font_writer.set_textpos(oled, 25, 35)
+                    font_writer.printstring("Manuell")
+                    oled.show(
 
-                # if mode_autom == 1:
-                    # schleife = 0
-                    # oled.fill(0)
-                    # oled.show()
+                if mode_autom == 1:
+                    schleife = 0
+                    oled.fill(0)
+                    oled.show()
 
 
     sleep(4)
