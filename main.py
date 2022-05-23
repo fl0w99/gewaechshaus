@@ -1,6 +1,6 @@
 from machine import Pin
 from time import sleep
-from gewaechshaus import messung, pre
+from steuerung import messung, pre
 
 print("Bereit")
 
