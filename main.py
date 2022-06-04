@@ -1,8 +1,10 @@
 from machine import Pin
 from time import sleep
-from steuerung import messung, pre
+from steuerung import wait, messung
 
 print("Bereit")
 
-pre()
+
+#wait()
+#fehler()
 messung()
